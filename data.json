@@ -1,0 +1,60 @@
+{
+  "rawData": [
+    {"month":"2025-08","campaign":"eLocal - HVAC","trade":"HVAC","total":50,"billable":26,"nonBillable":24,"cost":3250,"booked":0},
+    {"month":"2025-08","campaign":"eLocal - Plumbing","trade":"Plumbing","total":88,"billable":63,"nonBillable":25,"cost":6300,"booked":0},
+    {"month":"2025-08","campaign":"eLocal - Electrical","trade":"Electrical","total":55,"billable":40,"nonBillable":15,"cost":2600,"booked":0},
+    {"month":"2025-09","campaign":"eLocal - HVAC","trade":"HVAC","total":9,"billable":3,"nonBillable":6,"cost":375,"booked":0},
+    {"month":"2025-09","campaign":"eLocal - Plumbing","trade":"Plumbing","total":56,"billable":44,"nonBillable":12,"cost":4400,"booked":0},
+    {"month":"2025-09","campaign":"eLocal - Electrical","trade":"Electrical","total":27,"billable":20,"nonBillable":7,"cost":1300,"booked":0},
+    {"month":"2025-10","campaign":"eLocal - HVAC","trade":"HVAC","total":20,"billable":16,"nonBillable":4,"cost":2000,"booked":0},
+    {"month":"2025-10","campaign":"eLocal - Plumbing","trade":"Plumbing","total":32,"billable":27,"nonBillable":5,"cost":2700,"booked":0},
+    {"month":"2025-10","campaign":"eLocal - Electrical","trade":"Electrical","total":13,"billable":11,"nonBillable":2,"cost":715,"booked":0},
+    {"month":"2026-01","campaign":"eLocal - HVAC","trade":"HVAC","total":21,"billable":13,"nonBillable":8,"cost":2080,"booked":0},
+    {"month":"2026-01","campaign":"eLocal - Plumbing","trade":"Plumbing","total":48,"billable":35,"nonBillable":13,"cost":4375,"booked":0},
+    {"month":"2026-01","campaign":"eLocal - Electrical","trade":"Electrical","total":36,"billable":17,"nonBillable":19,"cost":1445,"booked":0},
+    {"month":"2026-02","campaign":"eLocal - HVAC","trade":"HVAC","total":30,"billable":28,"nonBillable":2,"cost":4480,"booked":0},
+    {"month":"2026-02","campaign":"eLocal - Plumbing","trade":"Plumbing","total":77,"billable":65,"nonBillable":12,"cost":6760,"booked":0},
+    {"month":"2026-02","campaign":"eLocal - Electrical","trade":"Electrical","total":86,"billable":80,"nonBillable":6,"cost":7178,"booked":0},
+    {"month":"2026-03","campaign":"eLocal - HVAC","trade":"HVAC","total":86,"billable":84,"nonBillable":2,"cost":13440,"booked":0},
+    {"month":"2026-03","campaign":"eLocal - Plumbing","trade":"Plumbing","total":159,"billable":143,"nonBillable":16,"cost":17805,"booked":0},
+    {"month":"2026-03","campaign":"eLocal - Electrical","trade":"Electrical","total":83,"billable":76,"nonBillable":7,"cost":6840,"booked":0}
+  ],
+  "slData": [
+    {"month":"2025-08","campaign":"eLocal - HVAC","slSpend":0,"conversions":66,"leads":59,"booked":13,"paying":6,"closedRevenue":1639.03,"roas":0},
+    {"month":"2025-08","campaign":"eLocal - Plumbing","slSpend":0,"conversions":90,"leads":78,"booked":24,"paying":15,"closedRevenue":20740.70,"roas":0},
+    {"month":"2025-08","campaign":"eLocal - Electric","slSpend":2599.88,"conversions":56,"leads":51,"booked":12,"paying":6,"closedRevenue":3468.66,"roas":1.3},
+    {"month":"2025-09","campaign":"eLocal - HVAC","slSpend":0,"conversions":25,"leads":22,"booked":2,"paying":1,"closedRevenue":10792.68,"roas":0},
+    {"month":"2025-09","campaign":"eLocal - Plumbing","slSpend":0,"conversions":58,"leads":58,"booked":23,"paying":9,"closedRevenue":20696.60,"roas":0},
+    {"month":"2025-09","campaign":"eLocal - Electric","slSpend":1299.99,"conversions":28,"leads":24,"booked":4,"paying":3,"closedRevenue":2581.12,"roas":2.0},
+    {"month":"2025-10","campaign":"eLocal - HVAC","slSpend":0,"conversions":27,"leads":24,"booked":5,"paying":1,"closedRevenue":94.90,"roas":0},
+    {"month":"2025-10","campaign":"eLocal - Plumbing","slSpend":0,"conversions":34,"leads":32,"booked":11,"paying":6,"closedRevenue":11978.04,"roas":0},
+    {"month":"2025-10","campaign":"eLocal - Electric","slSpend":714.89,"conversions":13,"leads":11,"booked":3,"paying":2,"closedRevenue":1148.58,"roas":1.6},
+    {"month":"2026-01","campaign":"eLocal - HVAC","slSpend":2080.11,"conversions":21,"leads":13,"booked":3,"paying":0,"closedRevenue":0,"roas":0},
+    {"month":"2026-01","campaign":"eLocal - Plumbing","slSpend":4374.86,"conversions":49,"leads":42,"booked":16,"paying":7,"closedRevenue":30910.52,"roas":7.1},
+    {"month":"2026-01","campaign":"eLocal - Electric","slSpend":1444.91,"conversions":38,"leads":31,"booked":7,"paying":2,"closedRevenue":4033.73,"roas":2.8},
+    {"month":"2026-02","campaign":"eLocal - HVAC","slSpend":0,"conversions":30,"leads":26,"booked":5,"paying":2,"closedRevenue":413.70,"roas":0},
+    {"month":"2026-02","campaign":"eLocal - Plumbing","slSpend":2875.00,"conversions":37,"leads":37,"booked":13,"paying":5,"closedRevenue":23922.34,"roas":8.3},
+    {"month":"2026-02","campaign":"eLocal - Electric","slSpend":1614.72,"conversions":134,"leads":115,"booked":37,"paying":23,"closedRevenue":17230.90,"roas":10.7},
+    {"month":"2026-03","campaign":"eLocal - HVAC","slSpend":0,"conversions":78,"leads":73,"booked":14,"paying":5,"closedRevenue":396.96,"roas":0},
+    {"month":"2026-03","campaign":"eLocal - Plumbing","slSpend":0,"conversions":20,"leads":21,"booked":5,"paying":1,"closedRevenue":0,"roas":0},
+    {"month":"2026-03","campaign":"eLocal - Electric","slSpend":0,"conversions":201,"leads":166,"booked":52,"paying":24,"closedRevenue":33339.22,"roas":0}
+  ],
+  "stStatus": {
+    "2025-08": "entered",
+    "2025-09": "entered",
+    "2025-10": "entered",
+    "2026-01": "entered",
+    "2026-02": "entered",
+    "2026-03": "mtd"
+  },
+  "meta": {
+    "vendor": "eLocal",
+    "lastUpdated": "2026-03-24",
+    "cplByTrade": {
+      "HVAC": 160,
+      "Plumbing": 125,
+      "Electrical": 90
+    },
+    "note": "All months now split by trade from call-level CSV data. Aug-Jan from HVAC account CSV (all trades routed through HVAC). Feb combines HVAC account leaked trades + separate Plumbing/Electrical accounts. Mar is clean split. Nov-Dec 2025 no data (account paused)."
+  }
+}
