@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>eLocal Channel Analysis — Service Professionals</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.1/dist/chart.umd.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#f4f6f9;--card:#fff;--text:#1a1a2e;--ts:#64748b;--muted:#94a3b8;--pos:#16a34a;--neg:#dc2626;--warn:#d97706;--border:#e2e8f0;--gap:12px;--r:10px;--shadow:0 1px 3px rgba(0,0,0,.05);--blue:#009FDA;--orange:#E37222;--navy:#263F6A}
+html{scroll-behavior:smooth}
+html,body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;font-size:13px;line-height:1.5}
+tbody tr:hover{background:#f8fafc}
+.wrap{max-width:1200px;margin:0 auto;padding:20px 16px}
+.header{background:linear-gradient(135deg,#263F6A,#1a2d4d);color:#fff;padding:18px 20px;border-radius:var(--r);display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--gap)}
+.header h1{font-size:18px;font-weight:700;letter-spacing:-.02em}
+.header-sub{font-size:11px;opacity:.65;margin-top:2px}
+.header-date{text-align:right;font-size:10px;opacity:.5}
+.card{background:var(--card);border-radius:var(--r);padding:18px 20px;margin-bottom:var(--gap);box-shadow:var(--shadow);border:1px solid #e2e8f0}
+.section{font-size:14px;font-weight:700;color:var(--text);margin-bottom:2px}
+.hint{font-size:11px;color:var(--muted);margin-bottom:10px;line-height:1.3}
+.sb{display:inline-block;padding:2px 6px;border-radius:4px;font-size:10px;font-weight:600;line-height:16px;white-space:nowrap}
+.sb-green{background:#dcfce7;color:#166534}
+.sb-red{background:#fef2f2;color:#dc2626}
+.sb-yellow{background:#fef3c7;color:#92400e}
+.sb-gray{background:#f1f5f9;color:#64748b}
+.sb-orange{background:#fff7ed;color:#c2410c}
+.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+table{width:100%;border-collapse:collapse}
+th{background:#f8fafc;border-bottom:1px solid #e2e8f0;padding:8px 12px;text-align:left;font-size:11px;font-weight:600;color:#475569;text-transform:uppercase;letter-spacing:.05em}
+td{border-bottom:1px solid #e2e8f0;padding:8px 12px;font-size:12px}
+.num{text-align:right;font-variant-numeric:tabular-nums}
+.pct{color:var(--text);font-weight:600}
+.pos{color:var(--pos)}
+.neg{color:var(--neg)}
+.kpi{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:var(--gap);margin-bottom:var(--gap)}
+.kpi-box{background:var(--card);border:1px solid #e2e8f0;border-radius:var(--r);padding:16px;text-align:center;box-shadow:var(--shadow)}
+.kpi-label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px}
+.kpi-val{font-size:20px;font-weight:700;color:var(--text);font-variant-numeric:tabular-nums}
+.kpi-sub{font-size:11px;color:var(--muted);margin-top:4px}
+.fg{display:flex;gap:var(--gap);flex-wrap:wrap;margin-bottom:var(--gap)}
+.fg-1{flex:1}
+.fg-2{flex:2}
+.fg button{padding:6px 12px;border:1px solid #d1d5db;background:#fff;border-radius:6px;cursor:pointer;font-size:12px;font-weight:500;color:var(--text);transition:all .2s}
+.fg button:hover{background:#f3f4f6;border-color:#9ca3af}
+.fg button.active{background:var(--blue);color:#fff;border-color:var(--blue)}
+.fg select{padding:6px 10px;border:1px solid #d1d5db;background:#fff;border-radius:6px;font-size:12px;color:var(--text)}
+.chart{position:relative;height:250px;margin-bottom:var(--gap)}
+.alert{padding:12px;border-radius:var(--r);margin-bottom:var(--gap);font-size:12px;border-left:4px solid}
+.alert.info{background:#f0f9ff;color:#0c4a6e;border-color:#0284c7}
+.alert.warn{background:#fef3c7;color:#92400e;border-color:#d97706}
+.alert.error{background:#fee2e2;color:#7f1d1d;border-color:#dc2626}
+.tabs{display:flex;gap:0;border-bottom:1px solid #e2e8f0;margin-bottom:var(--gap)}
+.tab{padding:10px 16px;border-bottom:2px solid transparent;cursor:pointer;color:var(--muted);font-weight:500;font-size:12px;transition:all .2s}
+.tab:hover{color:var(--text)}
+.tab.active{color:var(--blue);border-color:var(--blue)}
+.tabpane{display:none}
+.tabpane.active{display:block}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="header">
+<div>
+<h1>eLocal Channel Analysis</h1>
+<p class="header-sub">Service Professionals — Pay-Per-Lead Performance</p>
+</div>
+<div class="header-date" id="headerDate"></div>
+</div>
+
+<div class="kpi">
+<div class="kpi-box">
+<div class="kpi-label">Total Spend</div>
+<div class="kpi-val" id="totalSpend">$0</div>
+<div class="kpi-sub" id="spendTrend">+0%</div>
+</div>
+<div class="kpi-box">
+<div class="kpi-label">Total Leads</div>
+<div class="kpi-val" id="totalLeads">0</div>
+<div class="kpi-sub" id="leadTrend">+0%</div>
+</div>
+<div class="kpi-box">
+<div class="kpi-label">Cost Per Lead</div>
+<div class="kpi-val" id="avgCPL">$0</div>
+<div class="kpi-sub" id="cplTrend">+0%</div>
+</div>
+<div class="kpi-box">
+<div class="kpi-label">Booked Revenue</div>
+<div class="kpi-val" id="bookedRev">$0</div>
+<div class="kpi-sub" id="revTrend">+0%</div>
+</div>
+<div class="kpi-box">
+<div class="kpi-label">ROI</div>
+<div class="kpi-val" id="totalROI">0%</div>
+<div class="kpi-sub" id="roiTrend">+0%</div>
+</div>
+<div class="kpi-box">
+<div class="kpi-label">Lead Waste</div>
+<div class="kpi-val" id="wasteRate">0%</div>
+<div class="kpi-sub">Below target</div>
+</div>
+</div>
+
+<div class="card">
+<div class="section">Filters & Options</div>
+<div class="hint">Select month, trade, or vendor to view detailed metrics</div>
+<div class="fg">
+<select id="monthFilter" class="fg-1">
+<option value="">All Months</option>
+<option value="1">January</option>
+<option value="2">February</option>
+<option value="3">March</option>
+<option value="4">April</option>
+<option value="5">May</option>
+<option value="6">June</option>
+<option value="7">July</option>
+<option value="8">August</option>
+<option value="9">September</option>
+<option value="10">October</option>
+<option value="11">November</option>
+<option value="12">December</option>
+</select>
+<select id="tradeFilter" class="fg-1">
+<option value="">All Trades</option>
+<option value="HVAC">HVAC</option>
+<option value="Plumbing">Plumbing</option>
+<option value="Electrical">Electrical</option>
+</select>
+<select id="vendorFilter" class="fg-1">
+<option value="">All Vendors</option>
+</select>
+</div>
+</div>
+
+<div class="card">
+<div class="section">Channel Performance</div>
+<div class="hint">Click row to expand vendor breakdown</div>
+<div class="table-wrap">
+<table id="channelTable">
+<thead>
+<tr>
+<th>Trade</th>
+<th class="num">Leads</th>
+<th class="num">Booked</th>
+<th class="num">CPL</th>
+<th class="num">Billed</th>
+<th class="num">ROI</th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+</div>
+</div>
+
+<div class="card">
+<div class="section">Vendor Breakdown</div>
+<div class="hint">Performance by provider</div>
+<div class="table-wrap">
+<table id="vendorTable">
+<thead>
+<tr>
+<th>Vendor</th>
+<th class="num">Leads</th>
+<th class="num">Booked</th>
+<th class="num">CPL</th>
+<th class="num">Billed</th>
+<th class="num">Paid (90d)</th>
+<th class="num">ROI</th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+</div>
+</div>
+
+<div class="card">
+<div class="section">Monthly Trend</div>
+<div class="chart"><canvas id="trendChart"></canvas></div>
+</div>
+
+<div class="card">
+<div class="section">Trade Mix</div>
+<div class="chart"><canvas id="tradeChart"></canvas></div>
+</div>
+
+<div class="card">
+<div class="section">Vendor Performance</div>
+<div class="table-wrap">
+<table id="detailTable">
+<thead>
+<tr>
+<th>Date</th>
+<th>Trade</th>
+<th>Vendor</th>
+<th class="num">Leads</th>
+<th class="num">Booked</th>
+<th class="num">Spend</th>
+<th class="num">Billed</th>
+<th class="num">CPL</th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+<script>
+const RAW = [
+{m:1,t:"HVAC",v:"Angi",leads:45,booked:12,spend:1350,billed:14400,paid:12960},
+{m:1,t:"HVAC",v:"ServiceDirect",leads:38,booked:11,spend:1140,billed:13200,paid:11880},
+{m:1,t:"Plumbing",v:"Angi",leads:28,booked:6,spend:980,billed:7200,paid:6480},
+{m:1,t:"Electrical",v:"Angi",leads:22,booked:5,spend:660,billed:6000,paid:5400},
+{m:2,t:"HVAC",v:"Angi",leads:52,booked:14,spend:1560,billed:16800,paid:15120},
+{m:2,t:"HVAC",v:"ServiceDirect",leads:41,booked:12,spend:1230,billed:14400,paid:12960},
+{m:2,t:"Plumbing",v:"ServiceDirect",leads:35,booked:7,spend:1050,billed:8400,paid:7560},
+{m:2,t:"Electrical",v:"Angi",leads:29,booked:7,spend:870,billed:8400,paid:7560},
+{m:3,t:"HVAC",v:"Angi",leads:48,booked:13,spend:1440,billed:15600,paid:14040},
+];
+
+const fmt$ = x => '$' + (x || 0).toLocaleString();
+const fmt = x => (x || 0).toLocaleString();
+const pct = x => (x || 0).toFixed(1) + '%';
+const trend = (a, b) => (b ? (((a - b) / b * 100).toFixed(1)) : 0) + '%';
+
+function roll() {
+  const m = parseInt(document.getElementById('monthFilter').value) || null;
+  const t = document.getElementById('tradeFilter').value || null;
+  const v = document.getElementById('vendorFilter').value || null;
+
+  const filtered = RAW.filter(r => (!m || r.m === m) && (!t || r.t === t) && (!v || r.v === v));
+
+  const trades = [...new Set(filtered.map(r => r.t))].sort();
+  const vendors = [...new Set(filtered.map(r => r.v))].sort();
+
+  let tot_spend = 0, tot_leads = 0, tot_booked = 0, tot_billed = 0, tot_paid = 0;
+  filtered.forEach(r => {
+    tot_spend += r.spend;
+    tot_leads += r.leads;
+    tot_booked += r.booked;
+    tot_billed += r.billed;
+    tot_paid += r.paid;
+  });
+
+  const cpl = tot_leads ? (tot_spend / tot_leads).toFixed(2) : 0;
+  const roi = tot_spend ? (((tot_paid - tot_spend) / tot_spend * 100).toFixed(1)) : 0;
+
+  document.getElementById('totalSpend').textContent = fmt$(tot_spend);
+  document.getElementById('totalLeads').textContent = fmt(tot_leads);
+  document.getElementById('avgCPL').textContent = '$' + cpl;
+  document.getElementById('bookedRev').textContent = fmt$(tot_billed);
+  document.getElementById('totalROI').textContent = roi + '%';
+  document.getElementById('wasteRate').textContent = ((tot_leads - tot_booked) / tot_leads * 100).toFixed(1) + '%';
+
+  const channelBody = document.querySelector('#channelTable tbody');
+  channelBody.innerHTML = trades.map(trade => {
+    const tradeRows = filtered.filter(r => r.t === trade);
+    let ts = 0, tl = 0, tb = 0, tbi = 0;
+    tradeRows.forEach(r => { ts += r.spend; tl += r.leads; tb += r.booked; tbi += r.billed; });
+    const tcp = tl ? (ts / tl).toFixed(2) : 0;
+    const troi = ts ? (((tbi - ts) / ts * 100).toFixed(1)) : 0;
+    return `<tr><td>${trade}</td><td class="num">${tl}</td><td class="num">${tb}</td><td class="num">${tcp}</td><td class="num">${fmt$(tbi)}</td><td class="num ${troi >= 0 ? 'pos' : 'neg'}">${troi}%</td></tr>`;
+  }).join('');
+
+  const vendorBody = document.querySelector('#vendorTable tbody');
+  vendorBody.innerHTML = vendors.map(vendor => {
+    const vendRows = filtered.filter(r => r.v === vendor);
+    let vs = 0, vl = 0, vb = 0, vbi = 0, vp = 0;
+    vendRows.forEach(r => { vs += r.spend; vl += r.leads; vb += r.booked; vbi += r.billed; vp += r.paid; });
+    const vcp = vl ? (vs / vl).toFixed(2) : 0;
+    const vroi = vs ? (((vp - vs) / vs * 100).toFixed(1)) : 0;
+    return `<tr><td>${vendor}</td><td class="num">${vl}</td><td class="num">${vb}</td><td class="num">${vcp}</td><td class="num">${fmt$(vbi)}</td><td class="num">${fmt$(vp)}</td><td class="num ${vroi >= 0 ? 'pos' : 'neg'}">${vroi}%</td></tr>`;
+  }).join('');
+
+  const detailBody = document.querySelector('#detailTable tbody');
+  detailBody.innerHTML = filtered.sort((a, b) => b.m - a.m).map(r => {
+    const cp = (r.spend / r.leads).toFixed(2);
+    return `<tr><td>${new Date(2026, r.m - 1).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}</td><td>${r.t}</td><td>${r.v}</td><td class="num">${r.leads}</td><td class="num">${r.booked}</td><td class="num">${fmt$(r.spend)}</td><td class="num">${fmt$(r.billed)}</td><td class="num">${cp}</td></tr>`;
+  }).join('');
+
+  if (window.trendChart && window.trendChart.destroy) window.trendChart.destroy();
+  const trendCtx = document.getElementById('trendChart').getContext('2d');
+  window.trendChart = new Chart(trendCtx, {
+    type: 'line',
+    data: {
+      labels: ['Jan', 'Feb', 'Mar'],
+      datasets: [{
+        label: 'Spend',
+        data: [3970, 4140, 3840],
+        borderColor: '#009FDA',
+        backgroundColor: 'rgba(0, 157, 250, 0.05)',
+        tension: 0.4,
+        fill: true,
+        yAxisID: 'y'
+      }, {
+        label: 'Leads',
+        data: [133, 157, 148],
+        borderColor: '#E37222',
+        backgroundColor: 'rgba(227, 114, 34, 0.05)',
+        tension: 0.4,
+        fill: true,
+        yAxisID: 'y1'
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      interaction: { mode: 'index', intersect: false },
+      scales: {
+        y: { type: 'linear', display: true, position: 'left', ticks: { callback: v => '$' + v } },
+        y1: { type: 'linear', display: true, position: 'right', grid: { drawOnChartArea: false }, ticks: { callback: v => v } }
+      }
+    }
+  });
+
+  if (window.tradeChart && window.tradeChart.destroy) window.tradeChart.destroy();
+  const tradeCtx = document.getElementById('tradeChart').getContext('2d');
+  window.tradeChart = new Chart(tradeCtx, {
+    type: 'doughnut',
+    data: {
+      labels: ['HVAC', 'Plumbing', 'Electrical'],
+      datasets: [{
+        data: [438, 63, 51],
+        backgroundColor: ['#263F6A', '#009FDA', '#E37222'],
+        borderColor: '#fff',
+        borderWidth: 2
+      }]
+    },
+    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } } }
+  });
+}
+
+document.getElementById('monthFilter').addEventListener('change', roll);
+document.getElementById('tradeFilter').addEventListener('change', roll);
+document.getElementById('vendorFilter').addEventListener('change', roll);
+document.getElementById('headerDate').textContent = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+roll();
+</script>
+</body>
+</html>
